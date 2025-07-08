@@ -4,19 +4,19 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-//Register
-
+// Register
 router.post("/register", async (req, res) => {
   try {
-    const { firstname, lastName, email, password, role } = req.body;
+    // Use consistent casing for firstName and lastName
+    const { firstName, lastName, email, password, role } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ Message: "user alredy exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
-    //create User
+    // Create User
     const user = new User({
-      firstName: firstname,
-      lastName: lastName,
+      firstName,
+      lastName,
       email,
       password,
       role,
@@ -27,10 +27,10 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWTSECRET,
-      { expiresIn: "30d" } // Token expires in 30 days
+      { expiresIn: "30d" }
     );
     res.status(201).json({
-      message: "user registered successfully",
+      message: "User registered successfully",
       token,
       user: {
         id: user._id,
@@ -47,13 +47,12 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//login
-
+// Login
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // find the user
+    // Find the user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
