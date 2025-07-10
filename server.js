@@ -32,5 +32,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000; //if the PORT is not defined in the environment variables, it will use 5000 as default
 app.listen(PORT, () => {
+  
   console.log(`Server is running on port ${PORT}`);
+  console.log(`https://localhost:${PORT}`);
 });

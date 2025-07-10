@@ -26,7 +26,7 @@ router.post("/register", async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      process.env.JWTSECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
     res.status(201).json({
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
     }
 
     // Check password
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      process.env.JWTSECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
 

@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/profile", auth, async (req, res) => {
   try {
     res.json({
-      User,
+      user: req.user,
     });
   } catch (error) {
     res.status(500).json({
@@ -43,6 +43,7 @@ router.put("/profile", auth, async (req, res) => {
       success: false,
       message: "Server error",
     });
+    console.error(error);
   }
 });
 
@@ -78,6 +79,7 @@ router.post("/profile/skills", auth, async (req, res) => {
       success: false,
       message: "Server error",
     });
+    console.error(error);
   }
 });
 // Remove skill from user profile
@@ -99,6 +101,7 @@ router.delete("/skills/:skill", auth, async (req, res) => {
       success: false,
       message: "Server error",
     });
+    console.error(error);
   }
 });
 // Get all users (for admin ,recruiter)
@@ -121,6 +124,7 @@ router.get("/:id", auth, authorize("admin", "recruiter"), async (req, res) => {
       success: false,
       message: "Server error",
     });
+    console.error(error);
   }
 });
 

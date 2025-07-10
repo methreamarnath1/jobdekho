@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bycrypt = require("bcryptjs");
-const { type } = require("os");
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -55,5 +54,3 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 module.exports = mongoose.model("User", userSchema);
-
-//
