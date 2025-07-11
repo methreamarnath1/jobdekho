@@ -1,38 +1,35 @@
 const express = require("express");
-const mongoose = require("mongoose"); //used for connecting to mongoDB
-const cors = require("cors"); //used for enabled the cors= which allows the server to accept requests from diffrent origen
-//used for creating the router instance
-const userRoutes = require("./routes/users");
-const authRoutes = require("./routes/auth");
-
-require("dotenv").config(); //used for accessing the environment variables from the .env file
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
-//middlewares
-app.use(express.json()); //used for parsing the incoming request with JSON Payloads
-app.use(cors()); //enables the cors
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-//Database connection
+// Database connection
 mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => console.log("connected to mongoDB"))
-  .catch((err) => console.error("could not connect to mongoDB", err));
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-//Routes
+// Routes
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users");
+const jobRoutes = require("./routes/jobs");
 
-// Use the routes
-app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/jobs", jobRoutes);
 
-//basic routes
+// Basic route
 app.get("/", (req, res) => {
-  res.send("Welcome to the User Management API");
+  res.json({ message: "Job Portal API is running!" });
 });
 
-const PORT = process.env.PORT || 5000; //if the PORT is not defined in the environment variables, it will use 5000 as default
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`https://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
