@@ -19,10 +19,12 @@ mongoose
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const jobRoutes = require("./routes/jobs");
+const applicationRoutes = require("./routes/applications");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/applications", applicationRoutes);
 
 // Basic route
 app.get("/", (req, res) => {
