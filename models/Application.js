@@ -10,7 +10,7 @@ const applicationSchema = new mongoose.Schema(
       ref: "Job",
       required: true,
     },
-    applicat: {
+    applicant: {
       type: mongoose.Schema.Types.ObjectId, // reference to the user who applied for the job
       ref: "User",
       required: true,
@@ -21,7 +21,7 @@ const applicationSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "revie4wing", "accepted", "rejected"], // status of the application
+      enum: ["pending", "reviewing", "shortlisted", "rejected"], // status of the application
       default: "pending", // default status is pending
     },
   },
